@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表循环渲染</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+</style>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: 'hello world',
+                list: [1, 2, 3],
+                listObject: {
+                  firstName: 'wang',
+                  lastName: 'xin',
+                  job: 'dev'
+                }
+            }
+        },
+        methods: {
+          handleAddBtnClick() {
+            // 1.使用数组的变更函数
+            // this.list.push(7)
+            // this.list.pop()
+            // this.list.shift()
+            //this.list.unshift('hello')
+            // 2.直接替换数组
+            // 3.直接更新数组内容
+            // this.list[1] = 'hello'
+            // 对象
+            // 直接添加对象的内容
+            this.listObject.age = 100
+          }
+        },
+        template: `
+          <div>
+            <div v-for="(item, index) in list" :key="index">
+              {{item}} - {{index}}
+            </div>
+            <div v-for="(value, key, index) in listObject">
+              <template v-if="key !== 'job'">{{value}} - {{key}} - {{index}}</template>
+            </div>
+            <button @click="handleAddBtnClick">添加</butonn>
+          </div>
+        `
+    })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

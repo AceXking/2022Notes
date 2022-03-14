@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello world</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                content: 'hello world',
+                show: false,
+                list: [],
+                inputValue: ''
+            }
+        },
+        mounted() {
+        },
+        methods: {
+            handleBtnClick () {
+                const newContent = this.content.split('').reverse().join('')
+                this.content = newContent
+            },
+            handleAddItem() {
+                this.list.push(this.inputValue)
+                this.inputValue = ""
+            },
+            handleRemoveItem(index) {
+                this.list.splice(index, 1)
+            }
+        },
+        template: `
+        <div>
+            <input v-model="inputValue" v-bind:title="inputValue">
+            <button @click="handleAddItem">添加</button>
+            <ul>
+                <todo-item v-for="(item, index) of list"
+                v-bind:content="item" 
+                v-bind:index="index"
+                @click="handleRemoveItem(index)" />
+            </ul>
+        </div>
+        `
+    })
+    app.component('todo-item', {
+        props: ['content', 'index'],
+        template: '<li>{{index}} -- {{content}}</li>'
+    })
+    app.mount('#root')
+</script>
+</html>

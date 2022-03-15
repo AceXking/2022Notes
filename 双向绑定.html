@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双向绑定</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+</style>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: 'hello',
+                checkboxValue: [],
+                radioValue: '',
+                selectValue: 'A',
+                options: [
+                  {
+                    value: '1'
+                  },
+                  {
+                    value: '2'
+                  },
+                  {
+                    value: '3'
+                  }
+                ]
+            }
+        },
+        methods: {
+          handleAddBtnClick() {
+          }
+        },
+        // 修饰符 lazy 失去焦点 number数字类型 trim去空格 
+        template: `
+          <div>
+            {{message}}
+            <input v-model="message" />
+            <textarea v-model="message" />
+            <span>{{checkboxValue}}</span>
+            <input v-model="checkboxValue" type="checkbox" value="wang" />
+            <input v-model="checkboxValue" type="checkbox" value="xin" />
+            <span>{{radioValue}}</span>
+            <input v-model="radioValue" type="radio" value="xin" />
+            <div>select: {{selectValue}}</div>
+            <select v-model="selectValue">
+              <option>A</option>
+              <option>B</option>
+              <option>C</option>
+            </select>
+            <select v-model="selectValue">
+              <option v-for="item in options" :value="item">{{item.value}}</option>
+            </select>
+          </div>
+        `
+    })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

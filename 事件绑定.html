@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件绑定</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+</style>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                counter: 0
+            }
+        },
+        methods: {
+          handleAddBtnClick(num, event) {
+            console.log(event)
+            this.counter += 1
+          },
+          // stop 修饰符 停止冒泡
+          // self 修饰符 仅自身事件
+          // prevent 阻止默认行为
+          // once 只执行一次
+          // 
+          handleAddBtnClick_() {
+            this.counter += 1
+          },
+          // 按键修饰符
+          // enter, tab, delete, esc, up, down, left, right
+          // 鼠标修饰符
+          // left, right, middle
+          // 精确修饰符 exact, ctrl,
+          handleKeyDown(e) {
+            console.log('e', e)
+          },
+          handleClick() {
+            console.log('click')
+          }
+        },
+        template: `
+          <div>
+            <span>{{counter}}</span>
+            <button @click.stop="handleAddBtnClick(2, $event)">增加</button>
+            <input @keydown.enter="handleKeyDown" />
+            <div @click.left.ctrl="handleClick">按键修饰符</div>
+          </div>
+        `
+    })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

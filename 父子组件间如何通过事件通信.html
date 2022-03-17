@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>父子组件间如何通过事件通信</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+</style>
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        count: 1
+      }
+    },
+    methods: {
+      hanldeAadOne(num) {
+        this.count += num
+      }
+    },
+    template: `
+      <div>
+        <Counter :count="count" @add="hanldeAadOne" />
+      </div>
+    `
+    })
+    app.component('Counter', {
+      props: ['count'],
+      //emits: ['add'],
+      emits: {
+        add: (count) => {
+          if(count > 0) {
+            return true
+          }
+          return false
+        }
+      },
+      methods: {
+        handleClick() {
+          this.$emit('add', -1)
+        }
+      },
+      template: `
+        <div @click="handleClick">{{count}}</div>
+      `
+    })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

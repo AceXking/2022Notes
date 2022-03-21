@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件的知识点</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+</style>
+<script>
+  // v-once 元素标签只渲染一次
+  // ref 获取 dom 节点 / 组件引用 的一个语法
+  // provide / inject 多层组件的传值
+  const app = Vue.createApp({
+    data() {
+      return {
+        count: 1
+      }
+    },
+    // provide: {
+    //   count: 1
+    // },
+    provide() {
+      return {
+        count: this.count
+      }
+    },
+    mounted() {
+      console.log(this.$refs.count)
+      console.log(this.$refs.common)
+    },
+    template: `
+      <div>
+        <div @click="count += 1" v-once>
+          {{count}}
+        </div>
+        <div ref="count">
+          {{count}}
+        </div>
+        <common-item ref="common" />
+        <child :count="count" />
+      </div>
+    `
+    })
+    app.component('CommonItem', {
+      data() {
+        return {
+        }
+      },
+      methods: {
+        sayHello() {
+          alert('hello')
+        }
+      },
+      template: `
+        <div>hello world</div>
+      `
+    })
+    app.component('child', {
+      template: `
+        <child-child />
+      `
+    })
+    app.component('child-child', {
+      inject: ['count'],
+      template: `
+        <div>{{count}}</div>
+      `
+    })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

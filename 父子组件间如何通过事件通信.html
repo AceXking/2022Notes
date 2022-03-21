@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>父子组件间如何通过事件通信</title>
-    <script src="https://unpkg.com/vue@next"></script>
+    <script src="./vue.js"></script>
 </head>
 <body>
     <div id="root"></div>
@@ -16,7 +16,8 @@
   const app = Vue.createApp({
     data() {
       return {
-        count: 1
+        count: 1,
+        num: 1
       }
     },
     methods: {
@@ -27,6 +28,7 @@
     template: `
       <div>
         <Counter :count="count" @add="hanldeAadOne" />
+        <CounterA v-model:app="num" />
       </div>
     `
     })
@@ -48,6 +50,18 @@
       },
       template: `
         <div @click="handleClick">{{count}}</div>
+      `
+    })
+    app.component('CounterA', {
+      // props: ['modelValue'],
+      props: ['app'],
+      methods: {
+        handleClick() {
+          this.$emit('update:app', this.app + 3)
+        }
+      },
+      template: `
+        <div @click="handleClick">{{app}}</div>
       `
     })
     // vm 代表的就是 vue 应用的根组件

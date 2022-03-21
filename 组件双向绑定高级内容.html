@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件双向绑定高级内容</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+</style>
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        count: 1,
+        count1: 1,
+        test: 'a'
+      }
+    },
+    // <CounterA v-model:count="count" v-model:count1="count1" />
+    template: `
+      <div>
+        <Counter v-model.uppercase="test" />
+      </div>
+    `
+    })
+    app.component('Counter', {
+      // props: ['modelValue'],
+      // props: ['count', 'count1', {
+      //   'modelValue': String,
+      //   'modelModifiers': {
+      //     default: () => ({})
+      //   }
+      // }],
+      props: {
+        'modelValue': String,
+        'modelModifiers': {
+          default: () => ({})
+        }
+      },
+      methods: {
+        handleClick() {
+          this.$emit('update:count', this.count + 3)
+        },
+        handleClick1() {
+          this.$emit('update:count1', this.count + 3)
+        },
+        handleClickTest() {
+          let newValue = this.modelValue + 'b'
+          if(this.modelModifiers.uppercase) {
+            newValue = newValue.toUpperCase()
+          }
+          this.$emit('update:modelValue', newValue)
+        }
+      },
+      // <div @click="handleClick">{{count}}</div>
+      //<div @click="handleClick1">{{count1}}</div>
+      template: `
+        <div @click="handleClickTest">{{modelValue}}</div>
+      `
+    })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

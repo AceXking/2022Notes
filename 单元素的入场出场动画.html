@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单元素的入场出场动画</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+  @keyframes shake {
+    0% {
+      transform: translateX(-100px);
+    }
+    50% {
+      transform: translateX(-50px);
+    }
+    100% {
+      transform: translateX(50px);
+    }
+  }
+  /* .v-enter-active, .v-leave-active {
+    animation: shake 2s;
+  } */
+  /* .v-enter-from, .v-leave-to{
+    opacity: 0;
+  }
+  .v-enter-active, .v-leave-active {
+    transition: opacity 1s ease-out;
+  }
+  .v-enter-to {
+    opacity: 1;
+  } */
+</style>
+<script>
+  // 过渡 动画
+  const app = Vue.createApp({
+    data() {
+      return {
+        show: false
+      }
+    },
+    methods: {
+      hanldeClick() {
+        this.show = !this.show
+      },
+    },
+    template: `
+      <div>
+        <transition
+          enter-active-class="animate__animated animate__bounce"
+          leave-active-class="animate__animated animate__bounce"
+        >
+          <div v-if="show">hello world</div>
+        </transition>
+        <button @click="hanldeClick">动画</button>
+      </div>
+
+    `
+    })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

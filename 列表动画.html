@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表动画</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+  .list-item {
+    display: inline-block;
+    padding-left: 10px;
+  }
+  .v-enter-from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .v-enter-active {
+    transition: all .5s ease-in;
+  }
+  .v-enter-to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .v-move {
+    transition: all .5s ease-in;
+  }
+</style>
+<script>
+  // 过渡 动画
+  const app = Vue.createApp({
+    data() {
+      return {
+        list: [1, 2, 3]
+      }
+    },
+    methods: {
+      handleClick() {
+        this.list.unshift(this.list.length + 1)
+      } 
+    },
+    template: `
+      <div>
+        <transition-group>
+          <span class="list-item" v-for="item in list"
+          :key="item">{{item}}</span>
+        </transition-group>
+        <button @click="handleClick">切换</button>
+      </div>
+
+    `
+    })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

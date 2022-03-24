@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义指令</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+  .header {
+    position: absolute;
+  }
+</style>
+<script>
+  // 自定义指令 directive
+  // 局部指令
+  
+  // const directives = {
+  //   focus: {
+  //     mounted(el) {
+  //       el.focus()
+  //     }
+  //   }
+  // }
+  const app = Vue.createApp({
+    data() {
+      return {
+        show: true,
+        distance: 100
+      }
+    },
+    // mounted() {
+    //   this.$refs.input.focus()
+    // },
+    methods: {
+      handleClick() {
+      } 
+    },
+    // directives,
+    template: `
+      <div>
+        <div class="header" v-if="show" v-pos:top='distance'>
+          <input v-focus  />
+        </div>
+      </div>
+    `
+    })
+    // 全局指令
+    app.directive('focus', {
+      beforeMount() {
+        console.log('beforeMount')
+      },
+      mounted(el) {
+        console.log('mounted')
+        el.focus()
+      },
+      beforeUpdate() {
+        console.log('beforeUpdate')
+      },
+      update() {
+        console.log('update')
+      }
+    })
+    // 全局指令参数
+    // app.directive('pos', {
+    //   mounted(el, param) {
+    //     el.style.top = param.value + 'px'
+    //   },
+    //   updated(el, param) {
+    //     el.style.top = param.value + 'px'
+    //   },
+    // })
+    // 缩写
+    app.directive('pos', (el, param) => {
+        el.style[param.arg] = param.value + 'px'
+      })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

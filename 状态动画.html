@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>状态动画</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+</style>
+<script>
+  // 状态动画
+  const app = Vue.createApp({
+    data() {
+      return {
+        num: 1,
+        animateNum: 1
+      }
+    },
+    methods: {
+      handleClick() {
+        this.num = 10
+        const animation = setInterval(() => {
+          this.animateNum += 1
+          if(this.animateNum >= 10) {
+            clearInterval(animation)
+          }
+        }, 50)
+      } 
+    },
+    template: `
+      <div>
+        <div>{{animateNum}}</div>
+        <button @click="handleClick">切换</button>
+      </div>
+
+    `
+    })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

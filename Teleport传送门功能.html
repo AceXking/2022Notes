@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teleport传送门功能</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+  .area {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 300px;
+    background: red;
+  }
+  .mask {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #000;
+    opacity: 0.5;
+  }
+</style>
+<script>
+  // teleport 传送门功能 teleport teleport
+  const app = Vue.createApp({
+    data() {
+      return {
+        show: false
+      }
+    },
+    methods: {
+      handleClick() {
+        this.show = !this.show
+      } 
+    },
+    // directives,
+    template: `
+      <div>
+        <div class="area">
+          <button @click="handleClick">按钮</button>
+          <teleport to="body">
+            <div class="mask" v-show="show" />
+          </teleport>
+        </div>
+      </div>
+    `
+    })
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

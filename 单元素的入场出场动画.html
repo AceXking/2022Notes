@@ -48,10 +48,32 @@
       hanldeClick() {
         this.show = !this.show
       },
+      hanldeBeforeEnter(el) {
+        el.style.color = 'red'
+      },
+      hanldeEnterActive(el, done) {
+        const animation = setInterval(() => {
+          const color = el.style.color
+          el.style.color === 'red' ?
+          el.style.color = 'green' :
+          el.style.color = 'red'
+        }, 1000)
+        setTimeout(() => {
+          clearInterval(animation)
+          done()
+        }, 3000)
+      },
+      handleEnterEnd() {
+        alert(123)
+      }
     },
     template: `
       <div>
-        <transition
+        <transition :duration="200"
+          :css="false"
+          @before-enter="hanldeBeforeEnter"
+          @enter="hanldeEnterActive"
+          @after-enter="handleEnterEnd"
           enter-active-class="animate__animated animate__bounce"
           leave-active-class="animate__animated animate__bounce"
         >

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ref/reactive响应式引用</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+  
+</style>
+<script>
+  // ref/reactive响应式引用
+  // 原理，通过proxy 对数据进行封装，当数据变化时，触发模板等内容的更新
+  // ref() 处理基础类型的数据
+  const app = Vue.createApp({
+    template: `
+      <div>
+        {{nameObj.name}}
+      </div>
+
+    `,
+    // created 实例被完全初始化之前
+    // setup(props, context) {
+    //   const { ref } = Vue
+    //   // proxy, 'wang' 变成 proxy({value: 'wang'}) 一个响应式引用
+    //   let name = ref('wang')
+    //   setTimeout(() => {
+    //     name.value = 'xin'
+    //   }, 2000);
+    //   return { name }
+    // }
+    // reactive 处理非基础类型的数据
+    // readonly 只读 不可修改
+    // toRefs 转化为基础类型
+    setup(props, context) {
+      const { reactive, readonly, toRefs } = Vue
+      let nameObj = reactive({
+        name: 'wang'
+      })
+      setTimeout(() => {
+        nameObj.name = 'xin'
+      }, 2000)
+      return { nameObj }
+    }
+  })
+  // vm 代表的就是 vue 应用的根组件
+  const vm = app.mount('#root')
+</script>
+</html>

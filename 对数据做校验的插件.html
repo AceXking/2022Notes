@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对数据做校验的插件</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+</style>
+<script>
+  // 对数据做校验的插件 plugin
+  const validatorPlugin = (app, options) => {
+
+  }
+  const app = Vue.createApp({
+    data() {
+      return {
+        name: 'wang',
+        age: 20
+      }
+    },
+    rules: {
+      age: {
+        validate: (age) => {return age > 25},
+        message: 'too young, to simple'
+      }
+    },
+    template: `
+      <div>name: {{name}}, age: {{age}}</div>
+    `
+    })
+    app.use(validatorPlugin)
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>

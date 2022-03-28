@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>插件的定义和使用</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<style>
+</style>
+<script>
+  // 插件的定义和使用 plugin
+  const myPlugin = {
+    install(app, options) {
+      app.provide('name', 'wang')
+      // console.log(app, options)
+    }
+  }
+  const app = Vue.createApp({
+    template: `
+      <MyTitle />
+    `
+    })
+    app.component('MyTitle', {
+      inject: ['name'],
+      template: `
+        <div>
+          {{name}}
+        </div>
+      `
+    })
+    app.use(myPlugin)
+    // vm 代表的就是 vue 应用的根组件
+    const vm = app.mount('#root')
+</script>
+</html>
